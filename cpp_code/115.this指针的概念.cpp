@@ -10,7 +10,7 @@ class Person
         this->age = age;
     }
 
-    Person &PersonAddAge(Person &p)
+    Person &PersonAddAge(Person &p) // 返回引用来支持test02中的链式调用
     {
         this->age += p.age;
 
