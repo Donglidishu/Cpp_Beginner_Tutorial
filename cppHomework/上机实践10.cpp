@@ -6,8 +6,6 @@
 #define MAX 10
 using namespace std;
 
-// 初始密码123456
-
 struct techinf
 {
     string num;
@@ -23,6 +21,16 @@ struct techBook
     techinf personArray[MAX];
     int m_Size; // 记录表中人数
 };
+
+// 清屏操作(跨平台)
+void clearScreen()
+{
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
 
 // 保存数据到 source.txt
 void saveToFile(techBook *abs, const string &filename)
@@ -1099,64 +1107,64 @@ int main()
             setInfo(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
-            cin.get();       // 确保回车操作被捕获
-            system("clear"); // 清除(此处针对于macos系统，windows中clear替换成cls即可)
+            cin.get();     // 确保回车操作被捕获
+            clearScreen(); // 清屏
             break;
         case 2:
             deleteSalaryInfo(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
             cin.get();
-            system("clear");
+            clearScreen();
             break;
         case 3:
             searchInfo(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
             cin.get();
-            system("clear");
+            clearScreen();
             break;
         case 4:
             editSalary(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
             cin.get();
-            system("clear");
+            clearScreen();
             break;
         case 5:
             insertSalary(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
             cin.get();
-            system("clear");
+            clearScreen();
             break;
         case 6:
             statisticsMenu(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
             cin.get();
-            system("clear");
+            clearScreen();
             break;
         case 7:
             lastSalarySort(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
             cin.get();
-            system("clear");
+            clearScreen();
             break;
         case 8:
             maxMinAvg(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
             cin.get();
-            system("clear");
+            clearScreen();
             break;
         case 9:
             showInfo(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
             cin.get();
-            system("clear");
+            clearScreen();
             break;
         case 0:
             cout << "欢迎下次使用" << endl;
