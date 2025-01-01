@@ -1153,7 +1153,7 @@ int main()
             clearScreen();
             break;
         case 8:
-            maxMinAvg(&abs);
+            adjustSalary(&abs);
             cout << "按回车返回菜单" << endl;
             cin.get();
             cin.get();
