@@ -1,3 +1,7 @@
+/*****************************/
+/* 计2406 徐兆康 202421147174 */
+/****************************/
+// source.txt存放数据 程序首次运行生成password.txt存放密码
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
@@ -173,27 +177,41 @@ void setInfo(techBook *abs)
         cout << "当前录入第" << i + 1 << "位职工的信息" << endl;
         cout << "请输入职工工号: ";
         cin >> abs->personArray[abs->m_Size].num;
+
         // 验证工号唯一性
-        for (int j = 0; j < abs->m_Size; j++)
+        bool isUnique = false; // 标志变量，表示工号是否唯一
+        while (!isUnique)
         {
-            if (abs->personArray[j].num == abs->personArray[abs->m_Size].num)
+            isUnique = true; // 假设输入的工号是唯一的
+            for (int j = 0; j < abs->m_Size; j++)
             {
-                cout << "工号已存在，请重新输入: ";
-                cin >> abs->personArray[abs->m_Size].num;
-                j = 0; // 重新验证
+                if (abs->personArray[j].num == abs->personArray[abs->m_Size].num)
+                {                     // 检查工号是否重复
+                    isUnique = false; // 如果发现重复，设置为 false
+                    cout << "工号已存在，请重新输入: ";
+                    cin >> abs->personArray[abs->m_Size].num;
+                    break; // 跳出当前循环，等待用户输入新工号
+                }
             }
         }
 
         cout << "请输入姓名: ";
         cin >> abs->personArray[abs->m_Size].name;
+
         // 验证姓名唯一性
-        for (int j = 0; j < abs->m_Size; j++)
+        bool isNameUnique = false; // 标志变量，表示姓名是否唯一
+        while (!isNameUnique)
         {
-            if (abs->personArray[j].name == abs->personArray[abs->m_Size].name)
+            isNameUnique = true; // 假设输入的姓名是唯一的
+            for (int j = 0; j < abs->m_Size; j++)
             {
-                cout << "姓名已存在，请重新输入: ";
-                cin >> abs->personArray[abs->m_Size].name;
-                j = 0; // 重新验证
+                if (abs->personArray[j].name == abs->personArray[abs->m_Size].name)
+                {                         // 检查姓名是否重复
+                    isNameUnique = false; // 如果发现重复，设置为 false
+                    cout << "姓名已存在，请重新输入: ";
+                    cin >> abs->personArray[abs->m_Size].name;
+                    break; // 跳出当前循环，等待用户输入新姓名
+                }
             }
         }
 
@@ -798,18 +816,67 @@ void insertSalary(techBook *abs)
 
     string num;
     int index = -1; // 基准位置员工工号
-    cout << "请输入插入位置后一个人的工号(如末尾插入则输入1): ";
+    cout << "请输入插入位置后一个人的工号(如末尾插入则输入 -1): ";
     cin >> num;
 
     // 末尾插入
-    if (num == "1")
+    if (num == "-1")
     {
         cout << "请输入职工工号: ";
         cin >> abs->personArray[abs->m_Size].num;
+
+        // 验证工号唯一性
+        bool isUnique = false; // 标志变量，表示工号是否唯一
+        while (!isUnique)
+        {
+            isUnique = true; // 假设输入的工号是唯一的
+            for (int j = 0; j < abs->m_Size; j++)
+            {
+                if (abs->personArray[j].num == abs->personArray[abs->m_Size].num)
+                {                     // 检查工号是否重复
+                    isUnique = false; // 如果重复，设置为 false
+                    cout << "工号已存在，请重新输入: ";
+                    cin >> abs->personArray[abs->m_Size].num;
+                    break; // 跳出当前循环，等待新输入
+                }
+            }
+        }
+
         cout << "请输入姓名: ";
         cin >> abs->personArray[abs->m_Size].name;
+
+        // 验证姓名唯一性
+        bool isNameUnique = false; // 标志变量，表示姓名是否唯一
+        while (!isNameUnique)
+        {
+            isNameUnique = true; // 假设输入的姓名是唯一的
+            for (int j = 0; j < abs->m_Size; j++)
+            {
+                if (abs->personArray[j].name == abs->personArray[abs->m_Size].name)
+                {                         // 检查姓名是否重复
+                    isNameUnique = false; // 如果重复，设置为 false
+                    cout << "姓名已存在，请重新输入: ";
+                    cin >> abs->personArray[abs->m_Size].name;
+                    break; // 跳出当前循环，等待新输入
+                }
+            }
+        }
+
         cout << "请输入职称: ";
         cin >> abs->personArray[abs->m_Size].title;
+        // 验证职称输入是否在合法范围内
+        while (true)
+        {
+            if (abs->personArray[abs->m_Size].title != "教授" && abs->personArray[abs->m_Size].title != "副教授" && abs->personArray[abs->m_Size].title != "讲师" && abs->personArray[abs->m_Size].title != "助教")
+            {
+                cout << "职称输入错误，请重新输入: ";
+                cin >> abs->personArray[abs->m_Size].title;
+            }
+            else
+            {
+                break;
+            }
+        }
         cout << "请输入工龄: ";
         cin >> abs->personArray[abs->m_Size].workage;
 
@@ -856,10 +923,58 @@ void insertSalary(techBook *abs)
 
     cout << "请输入职工工号: ";
     cin >> abs->personArray[index].num;
+
+    // 验证工号唯一性
+    bool isUnique = false; // 标志变量，表示工号是否唯一
+    while (!isUnique)
+    {
+        isUnique = true; // 假设输入的工号是唯一的
+        for (int j = 0; j < abs->m_Size; j++)
+        {
+            if (j != index && abs->personArray[j].num == abs->personArray[index].num)
+            {                     // 排除当前录入位置
+                isUnique = false; // 如果发现重复，设置为 false
+                cout << "工号已存在，请重新输入: ";
+                cin >> abs->personArray[index].num;
+                break; // 跳出循环，等待用户输入新工号
+            }
+        }
+    }
+
     cout << "请输入姓名: ";
     cin >> abs->personArray[index].name;
+
+    // 验证姓名唯一性
+    bool isNameUnique = false; // 标志变量，表示姓名是否唯一
+    while (!isNameUnique)
+    {
+        isNameUnique = true; // 假设输入的姓名是唯一的
+        for (int j = 0; j < abs->m_Size; j++)
+        {
+            if (j != index && abs->personArray[j].name == abs->personArray[index].name)
+            {                         // 排除当前录入位置
+                isNameUnique = false; // 如果发现重复，设置为 false
+                cout << "姓名已存在，请重新输入: ";
+                cin >> abs->personArray[index].name;
+                break; // 跳出循环，等待用户输入新姓名
+            }
+        }
+    }
     cout << "请输入职称: ";
     cin >> abs->personArray[index].title;
+    // 验证职称输入是否在合法范围内
+    while (true)
+    {
+        if (abs->personArray[index].title != "教授" && abs->personArray[index].title != "副教授" && abs->personArray[index].title != "讲师" && abs->personArray[index].title != "助教")
+        {
+            cout << "职称输入错误，请重新输入: ";
+            cin >> abs->personArray[index].title;
+        }
+        else
+        {
+            break;
+        }
+    }
     cout << "请输入工龄: ";
     cin >> abs->personArray[index].workage;
 
