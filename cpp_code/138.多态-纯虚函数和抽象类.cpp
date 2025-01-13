@@ -16,6 +16,11 @@ class Base
     virtual ~Base() = 0;
 };
 
+Base::~Base()
+{
+    cout << "纯虚析构调用" << endl;
+}
+
 class Son : public Base
 {
   public:
