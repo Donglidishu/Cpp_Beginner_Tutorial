@@ -1,4 +1,7 @@
 #include "workerManager.h"
+#include "boss.h"
+#include "manager.h"
+#include <cstdlib>
 
 WorkerManager::WorkerManager()
 {
@@ -41,11 +44,76 @@ void WorkerManager::addEmp()
     {
         // 添加
         // 计算添加新空间大小
+        int newSize = this->m_EmpNum + addNum; // 新空间大小 = 原来记录人数 + 新增人数
+
+        // 开辟新空间
+        Worker **newSpace = new Worker *[newSize];
+
+        // 将原来内存中的数据拷贝到新内存中
+        if (this->m_EmpArray != nullptr)
+        {
+            for (int i = 0; i < this->m_EmpNum; i++)
+            {
+                newSpace[i] = this->m_EmpArray[i];
+            }
+        }
+
+        // 添加新数据
+        for (int i = 0; i < addNum; i++)
+        {
+            int id;      // 职工编号
+            string name; // 职工姓名
+            int dSelect; // 部门选择
+
+            cout << "请输入第 " << i + 1 << " 个新职工的编号: ";
+            cin >> id;
+            cout << "请输入第 " << i + 1 << " 个新职工的姓名: ";
+            cin >> name;
+            cout << "请选择该职工的岗位: " << endl;
+            cout << "1.普通员工" << endl;
+            cout << "2.经理" << endl;
+            cout << "3.老板" << endl;
+            cin >> dSelect;
+
+            Worker *worker = nullptr;
+            switch (dSelect)
+            {
+            case 1:
+                worker = new Employee(id, name, 1);
+                break;
+            case 2:
+                worker = new Manager(id, name, 2);
+                break;
+            case 3:
+                worker = new Boss(id, name, 3);
+                break;
+            default:
+                break;
+            }
+            // 将创建的职工指针保存到数组中
+            newSpace[this->m_EmpNum + i] = worker;
+        }
+        // 释放原有内存
+        delete[] this->m_EmpArray;
+
+        // 更改新内存空间的指向
+        this->m_EmpArray = newSpace;
+
+        // 更新职工人数
+        this->m_EmpNum = newSize;
+
+        cout << "成功添加了 " << addNum << " 名新职工信息" << endl;
     }
     else
     {
         cout << "输入有误" << endl;
     }
+
+    // 按回车继续
+    cin.get();
+    cin.get();
+    // 清屏
+    system("clear");
 }
 
 WorkerManager::~WorkerManager()

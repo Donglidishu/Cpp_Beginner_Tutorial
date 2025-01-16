@@ -1,4 +1,7 @@
 #pragma once
+#include "boss.h"
+#include "employee.h"
+#include "manager.h"
 #include "worker.h"
 #include <iostream>
 using namespace std;

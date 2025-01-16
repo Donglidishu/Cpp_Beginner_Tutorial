@@ -2,3 +2,5 @@ CompileFlags:
   Add:
     - -std=c++17
     - -Iinclude # 包含头文件路径
+Diagnostics:
+  UnusedIncludes: None
