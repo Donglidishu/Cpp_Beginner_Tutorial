@@ -42,6 +42,15 @@ class WorkerManager
     // 初始化员工
     void init_Emp();
 
+    // 显示员工信息
+    void show_Emp();
+
+    // 删除员工信息
+    void del_Emp();
+
+    // 判断员工是否存在
+    int isExist(int id);
+
     // 析构函数
     ~WorkerManager();
 };

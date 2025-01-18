@@ -166,7 +166,9 @@ void WorkerManager::addEmp()
 
     // 按回车继续
     cin.get();
+    cout << "按回车继续..." << endl;
     cin.get();
+
     // 清屏
     system("clear");
 }
@@ -237,6 +239,87 @@ void WorkerManager::init_Emp()
 
     // 关闭文件
     ifs.close();
+}
+
+// 展示员工信息
+void WorkerManager::show_Emp()
+{
+    if (this->m_FileIsEmpty)
+    {
+        cout << "文件不存在或记录为空" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < m_EmpNum; i++)
+        {
+            // 利用多态调用程序接口
+            this->m_EmpArray[i]->showInfo();
+        }
+    }
+    cin.get();
+    cout << "按回车继续..." << endl;
+    cin.get();
+
+    system("clear");
+}
+
+// 删除员工信息
+void WorkerManager::del_Emp()
+{
+    if (this->m_FileIsEmpty)
+    {
+        cout << "文件不存在或者记录为空" << endl;
+    }
+    else
+    {
+        // 按照职工编号删除
+        cout << "请输入想要删除的职工编号: ";
+        int id = 0;
+        cin >> id;
+        int index = this->isExist(id);
+        if (index != -1)
+        {
+            // 数据迁移
+            for (int i = 0; i < this->m_EmpNum - 1; i++)
+            {
+                this->m_EmpArray[i] = this->m_EmpArray[i + 1];
+            }
+            this->m_EmpNum--; // 更新数组中记录人员的个数
+            // 数据同步更新到文件中
+            this->save();
+            cout << "删除成功" << endl;
+        }
+        else
+        {
+            cout << "删除失败，未找到该职工" << endl;
+        }
+        if (this->m_EmpNum == 0) // 更新 m_FileIsEmpty 状态
+        {
+            this->m_FileIsEmpty = true;
+        }
+    }
+    cin.get();
+    cout << "按回车继续..." << endl;
+    cin.get();
+
+    system("clear");
+}
+
+// 判断员工是否存在,找到返回index，否则返回-1
+int WorkerManager::isExist(int id)
+{
+    int index = -1;
+    for (int i = 0; i < this->m_EmpNum; i++)
+    {
+        if (this->m_EmpArray[i]->m_ID == id)
+        {
+            // 找到员工
+            index = i;
+
+            break;
+        }
+    }
+    return index;
 }
 
 WorkerManager::~WorkerManager()
