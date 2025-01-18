@@ -49,8 +49,10 @@ int main()
             wm.del_Emp();
             break;
         case 4: // 修改职工
+            wm.modEmp();
             break;
         case 5: // 查找职工
+            wm.find_Emp();
             break;
         case 6: // 排序职工
             break;

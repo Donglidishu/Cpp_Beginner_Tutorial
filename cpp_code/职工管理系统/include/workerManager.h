@@ -15,6 +15,9 @@ class WorkerManager
     // 构造函数
     WorkerManager();
 
+    // 清屏函数
+    void screenClean();
+
     // 展示菜单
     void showMenu();
 
@@ -48,8 +51,14 @@ class WorkerManager
     // 删除员工信息
     void del_Emp();
 
-    // 判断员工是否存在
+    // 判断员工是否存在,找到返回index，否则返回-1
     int isExist(int id);
+
+    // 修改员工信息
+    void modEmp();
+
+    // 查找员工信息
+    void find_Emp();
 
     // 析构函数
     ~WorkerManager();

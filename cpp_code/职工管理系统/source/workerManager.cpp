@@ -5,6 +5,7 @@
 #include "worker.h"
 #include <cstdlib>
 #include <fstream>
+#include <iostream>
 #include <sys/syslimits.h>
 
 WorkerManager::WorkerManager()
@@ -57,6 +58,15 @@ WorkerManager::WorkerManager()
     //          << " 职工姓名： " << this->m_EmpArray[i]->m_Name
     //          << " 部门编号： " << this->m_EmpArray[i]->m_DeptID << endl;
     // }
+}
+
+// 清屏函数
+void WorkerManager::screenClean()
+{
+    cin.get();
+    cout << "按回车继续..." << endl;
+    cin.get();
+    system("clear");
 }
 
 // 菜单函数
@@ -164,10 +174,7 @@ void WorkerManager::addEmp()
         cout << "输入有误" << endl;
     }
 
-    // 按回车继续
-    cin.get();
-    cout << "按回车继续..." << endl;
-    cin.get();
+    this->screenClean();
 
     // 清屏
     system("clear");
@@ -256,9 +263,8 @@ void WorkerManager::show_Emp()
             this->m_EmpArray[i]->showInfo();
         }
     }
-    cin.get();
-    cout << "按回车继续..." << endl;
-    cin.get();
+
+    this->screenClean();
 
     system("clear");
 }
@@ -298,9 +304,8 @@ void WorkerManager::del_Emp()
             this->m_FileIsEmpty = true;
         }
     }
-    cin.get();
-    cout << "按回车继续..." << endl;
-    cin.get();
+
+    this->screenClean();
 
     system("clear");
 }
@@ -320,6 +325,127 @@ int WorkerManager::isExist(int id)
         }
     }
     return index;
+}
+
+// 修改员工信息
+void WorkerManager::modEmp()
+{
+    if (this->m_FileIsEmpty)
+    {
+        cout << "文件不存在或数据为空" << endl;
+    }
+    else
+    {
+        cout << "请输入要修改的员工的编号: ";
+        int id;
+        cin >> id;
+
+        int ret = isExist(id);
+        if (ret != -1)
+        {
+            delete this->m_EmpArray[ret];
+
+            int newId;
+            string newName;
+            int dSelect;
+            cout << "请输入新的员工编号: ";
+            cin >> newId;
+            cout << "请输入新的员工姓名: ";
+            cin >> newName;
+
+            cout << "请选择新职工的岗位: " << endl;
+            cout << "1.普通员工" << endl;
+            cout << "2.经理" << endl;
+            cout << "3.老板" << endl;
+            cin >> dSelect;
+            Worker *worker = nullptr;
+
+            switch (dSelect)
+            {
+            case 1:
+                worker = new Employee(newId, newName, 1);
+                break;
+            case 2:
+                worker = new Manager(newId, newName, 2);
+                break;
+            case 3:
+                worker = new Boss(newId, newName, 3);
+                break;
+            default:
+                break;
+            }
+            this->m_EmpArray[ret] = worker;
+
+            // 保存到文件
+            this->save();
+
+            cout << "修改成功" << endl;
+        }
+        else
+        {
+            cout << "查无此人" << endl;
+        }
+    }
+    this->screenClean();
+}
+
+// 查找员工信息
+void WorkerManager::find_Emp()
+{
+    if (this->m_FileIsEmpty)
+    {
+        cout << "文件不存在或者数据为空" << endl;
+    }
+    else
+    {
+        cout << "请输入查找方式: " << endl;
+        cout << "1.按编号查找" << endl;
+        cout << "2.按姓名查找" << endl;
+        int select;
+        cin >> select;
+        if (select == 1)
+        {
+            cout << "请输入要查找的员工的编号: ";
+            int idSearch;
+            cin >> idSearch;
+
+            int ret = this->isExist(idSearch);
+            if (ret != -1)
+            {
+                this->m_EmpArray[ret]->showInfo();
+            }
+            else
+            {
+                cout << "查无此人" << endl;
+            }
+        }
+        else if (select == 2)
+        {
+            cout << "请输入要查找的员工的姓名: ";
+            string nameSearch;
+            cin >> nameSearch;
+
+            bool flag = false;
+            for (int i = 0; i < this->m_EmpNum; i++)
+            {
+                if (this->m_EmpArray[i]->m_Name == nameSearch)
+                {
+                    cout << "查找到职工编号为 " << this->m_EmpArray[i]->m_ID << " 的职工 信息如下: " << endl;
+                    this->m_EmpArray[i]->showInfo();
+                    flag = true;
+                }
+            }
+            if (flag == false)
+            {
+                cout << "查无此人" << endl;
+            }
+        }
+        else
+        {
+            cout << "输入有误" << endl;
+        }
+    }
+    this->screenClean();
 }
 
 WorkerManager::~WorkerManager()
