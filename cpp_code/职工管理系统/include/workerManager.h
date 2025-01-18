@@ -3,7 +3,9 @@
 #include "employee.h"
 #include "manager.h"
 #include "worker.h"
+#include <fstream>
 #include <iostream>
+#define FILENAME "empFile.txt"
 using namespace std;
 
 class WorkerManager
@@ -27,6 +29,18 @@ class WorkerManager
 
     // 添加职工函数
     void addEmp();
+
+    // 保存到文件函数
+    void save();
+
+    // 判断文件是否为空状态
+    bool m_FileIsEmpty;
+
+    // 统计文件中人数
+    int get_EmpNum();
+
+    // 初始化员工
+    void init_Emp();
 
     // 析构函数
     ~WorkerManager();
