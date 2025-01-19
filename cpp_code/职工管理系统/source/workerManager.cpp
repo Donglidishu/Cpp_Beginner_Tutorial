@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <sys/syslimits.h>
 
 WorkerManager::WorkerManager()
 {
@@ -265,8 +264,6 @@ void WorkerManager::show_Emp()
     }
 
     this->screenClean();
-
-    system("clear");
 }
 
 // 删除员工信息
@@ -446,6 +443,90 @@ void WorkerManager::find_Emp()
         }
     }
     this->screenClean();
+}
+
+// 按照编号排序
+void WorkerManager::sort_Emp()
+{
+    if (this->m_FileIsEmpty)
+    {
+        cout << "文件不存在或记录为空" << endl;
+        this->screenClean();
+    }
+    else
+    {
+        cout << "请选择排序方式: " << endl;
+        cout << "1.按职工编号升序" << endl;
+        cout << "2.按职工编号降序" << endl;
+
+        int select = 0;
+        cin >> select;
+        for (int i = 0; i < m_EmpNum; i++)
+        {
+            int minOrMax = i; // 声明最小值 或 最大值下标
+            for (int j = i + 1; j < this->m_EmpNum; j++)
+            {
+                if (select == 1)
+                {
+                    if (this->m_EmpArray[minOrMax]->m_ID > this->m_EmpArray[j]->m_ID)
+                    {
+                        minOrMax = j;
+                    }
+                }
+                else
+                {
+                    if (this->m_EmpArray[minOrMax]->m_ID < this->m_EmpArray[j]->m_ID)
+                    {
+                        minOrMax = j;
+                    }
+                }
+            }
+            // 判断一开始认定的最小值或最大值是不是内层循环计算出的最大值或最小值，如果不是，则交换数据
+            if (minOrMax != i)
+            {
+                Worker *temp = this->m_EmpArray[i];
+                this->m_EmpArray[i] = this->m_EmpArray[minOrMax];
+                this->m_EmpArray[minOrMax] = temp;
+            }
+        }
+        this->save();
+        cout << "排序成功 排序后的结果为: " << endl;
+        this->show_Emp();
+    }
+}
+
+// 清空文件
+void WorkerManager::clean_File()
+{
+    cout << "确认清空？" << endl;
+    cout << "1、确认" << endl;
+    cout << "2、返回" << endl;
+
+    int select = 0;
+    cin >> select;
+
+    if (select == 1)
+    {
+        ofstream ofs(FILENAME, ios::trunc); // ios::trunc截断模式，如果文件存在，则清空文件内容; 如果文件不存在，则创建空白文件
+        ofs.close();
+
+        if (this->m_EmpArray != nullptr)
+        {
+            // 删除堆区的每个职工对象
+            for (int i = 0; i < this->m_EmpNum; i++)
+            {
+                delete this->m_EmpArray[i];
+                this->m_EmpArray[i] = nullptr;
+            }
+            // 删除堆区的数组指针
+            delete[] this->m_EmpArray;
+            this->m_EmpArray = nullptr;
+            this->m_EmpNum = 0;
+            this->m_FileIsEmpty = true;
+        }
+        cout << "清空成功" << endl;
+        this->screenClean();
+    }
 }
 
 WorkerManager::~WorkerManager()
