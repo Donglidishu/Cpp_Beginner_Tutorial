@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.10)
+
+# 设置项目名称和使用的 C++ 标准
+project(templateCase)
+set(CMAKE_CXX_STANDARD 17)
+
+# 包含头文件路径
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+# 查找 source 文件夹下的所有 cpp 文件并保存到变量
+file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/source/*.cpp)
+
+# 指定生成的可执行文件
+add_executable(templateCase ${SOURCES})
