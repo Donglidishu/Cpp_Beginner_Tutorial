@@ -2,6 +2,7 @@
 #include <set>
 #include <utility>
 using namespace std;
+// set和multiset是关联式容器，底层结构是二叉树
 
 void test01()
 {
