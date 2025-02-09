@@ -59,6 +59,12 @@ class SpeechManager
     // 判断文件是否为空
     bool fileIsEmpty;
 
+    // 显示往届记录
+    void showRecord();
+
+    // 清空记录
+    void clearRecord();
+
     // 存放往届记录的容器
     map<int, vector<string>> m_Record;
 

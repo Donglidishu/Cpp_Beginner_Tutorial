@@ -69,6 +69,9 @@ void SpeechManager::initSpeech()
 
     // 初始化比赛轮数
     this->m_Index = 1;
+
+    // 初始化记录容器
+    this->m_Record.clear();
 }
 
 // 创建选手
@@ -123,7 +126,6 @@ void SpeechManager::speechDraw()
         cout << endl;
     }
     cout << "--------------------" << endl;
-    cin.get();
     cin.get();
     cout << endl;
 }
@@ -227,7 +229,6 @@ void SpeechManager::showScore()
     }
     cout << endl;
 
-    cin.get();
     this->screenClear();
     this->showMenu();
 }
@@ -245,6 +246,8 @@ void SpeechManager::saveRecord()
     ofs << endl;
     ofs.close();
     cout << "记录已保存" << endl;
+
+    this->fileIsEmpty = false;
 }
 
 // 读取记录
@@ -275,9 +278,12 @@ void SpeechManager::loadRecord()
     this->fileIsEmpty = false;
     ifs.putback(ch); // 将上面读到的单个字符放回去
     string data;
+    int index = 0; // 第几届
     while (ifs >> data)
     {
         // cout << data << endl;
+        vector<string> v;
+
         int pos = -1; // 查找到逗号的位置的变量
         int start = 0;
         while (true)
@@ -289,12 +295,43 @@ void SpeechManager::loadRecord()
                 break;
             }
             string temp = data.substr(start, pos - start);
-            cout << temp << endl;
+            // cout << temp << endl;
+            v.push_back(temp);
 
             start = pos + 1;
         }
+        this->m_Record.insert(make_pair(index, v));
+        index++;
     }
     ifs.close();
+
+    // for (map<int, vector<string>>::iterator it = this->m_Record.begin(); it != m_Record.end(); it++)
+    // {
+    //     cout << it->first << "冠军编号: " << it->second[0] << " 分数: " << it->second[1] << endl;
+    // }
+
+    // cin.get();
+    // this->screenClear();
+}
+
+// 显示往届记录
+void SpeechManager::showRecord()
+{
+    if (this->fileIsEmpty)
+    {
+        cout << "文件为空或者文件不存在" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < this->m_Record.size(); i++)
+        {
+            cout << "第 " << i + 1 << " 届"
+                 << "冠军编号: " << this->m_Record[i][0] << " 得分: " << this->m_Record[i][1] << " "
+                 << "亚军编号: " << this->m_Record[i][2] << " 得分: " << this->m_Record[i][3] << " "
+                 << "季军编号: " << this->m_Record[i][4] << " 得分: " << this->m_Record[i][5] << endl;
+        }
+    }
+
     cin.get();
     this->screenClear();
 }
@@ -322,8 +359,15 @@ void SpeechManager::startSpeech()
     // 4、保存分数
     this->saveRecord();
 
+    // 重置比赛
+    // 初始化属性
+    this->initSpeech();
+    // 创建选手
+    this->createSpeaker();
+    // 获取往届记录
+    this->loadRecord();
+
     cout << "本届比赛完毕" << endl;
-    cin.get();
     this->screenClear();
 }
 

@@ -1,5 +1,7 @@
 #include "speaker.h"
 #include "speechManager.h"
+#include <cstdlib>
+#include <ctime>
 #include <ios>
 #include <iostream>
 #include <limits>
@@ -10,11 +12,14 @@ int main()
     // 创建管理类对象
     SpeechManager Manager;
 
+    // 随机数种子
+    srand((unsigned int)time(nullptr));
+
     // 测试12名选手创建
-    for (map<int, Speaker>::iterator it = Manager.m_Speaker.begin(); it != Manager.m_Speaker.end(); it++)
-    {
-        cout << "编号: " << (*it).first << " 姓名: " << (*it).second.m_Name << " 分数: " << (*it).second.m_Score[0] << endl;
-    }
+    // for (map<int, Speaker>::iterator it = Manager.m_Speaker.begin(); it != Manager.m_Speaker.end(); it++)
+    // {
+    //     cout << "编号: " << (*it).first << " 姓名: " << (*it).second.m_Name << " 分数: " << (*it).second.m_Score[0] << endl;
+    // }
 
     while (true)
     {
@@ -38,6 +43,7 @@ int main()
             Manager.startSpeech();
             break;
         case 2: // 查看往届记录
+            Manager.showRecord();
             break;
         case 3: // 清空比赛记录
             break;
