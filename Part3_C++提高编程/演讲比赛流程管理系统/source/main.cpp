@@ -46,6 +46,7 @@ int main()
             Manager.showRecord();
             break;
         case 3: // 清空比赛记录
+            Manager.clearRecord();
             break;
         case 0: // 退出系统
             Manager.exitSystem();

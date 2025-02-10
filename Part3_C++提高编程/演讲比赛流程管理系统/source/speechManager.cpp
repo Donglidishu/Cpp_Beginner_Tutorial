@@ -336,6 +336,36 @@ void SpeechManager::showRecord()
     this->screenClear();
 }
 
+// 清空记录
+void SpeechManager::clearRecord()
+{
+    cout << "确认清空？" << endl;
+    cout << "1、确认" << endl;
+    cout << "2、返回" << endl;
+
+    int select = 0;
+    cin >> select;
+
+    if (select == 1)
+    {
+        // 确认清空
+        ofstream ofs("speech.csv", ios::trunc); // 删除再创建
+        ofs.close();
+
+        // 初始化操作
+        // 初始化容器属性
+        this->initSpeech();
+        // 创建12名选手
+        this->createSpeaker();
+        // 加载往届记录
+        this->loadRecord();
+
+        cout << "清空成功" << endl;
+    }
+    cin.get();
+    this->screenClear();
+}
+
 // 开始比赛 整个比赛流程控制函数
 void SpeechManager::startSpeech()
 {
