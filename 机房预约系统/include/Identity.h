@@ -8,7 +8,9 @@ class Identity
 {
   public:
     // 操作菜单纯虚函数
-    virtual void openMenu() = 0;
+    virtual void operMenu() = 0;
+
+    virtual ~Identity() = 0;
 
   public:
     // 用户名及密码

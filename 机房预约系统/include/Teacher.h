@@ -21,6 +21,9 @@ class Teacher : public Identity
     // 审核预约
     void validOrder();
 
+    ~Teacher();
+
+  public:
     // 教师编号
     int m_EmpId;
 };

@@ -24,6 +24,8 @@ class Student : public Identity
     // 取消预约
     void cancelOrder();
 
+    ~Student();
+
   public:
     // 学生学号
     int m_Id;

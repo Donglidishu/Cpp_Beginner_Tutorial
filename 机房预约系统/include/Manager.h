@@ -27,4 +27,6 @@ class Manager : public Identity
 
     // 清空预约记录
     void cleanFile();
+
+    ~Manager();
 };

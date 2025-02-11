@@ -1,10 +1,55 @@
 #include "Identity.h"
+#include "Manager.h"
+#include "Student.h"
+#include "Teacher.h"
 #include "globalFile.h"
 #include "screenClear.h"
 #include <fstream>
 #include <iostream>
 using namespace std;
 
+// 进入管理员子菜单界面
+void managerMenu(Identity *&manager)
+{
+    while (true)
+    {
+        // 调用管理员子菜单
+        manager->operMenu();
+
+        Manager *man = (Manager *)manager;
+
+        int select = 0;
+        cin >> select;
+        if (select == 1) // 添加账号
+        {
+            cout << "添加账号" << endl;
+            man->addPerson();
+        }
+        else if (select == 2) // 查看账号
+        {
+            cout << "查看账号" << endl;
+            man->showPerson();
+        }
+        else if (select == 3) // 查看机房
+        {
+            cout << "查看机房" << endl;
+            man->showComputer();
+        }
+        else if (select == 4) // 清空预约
+        {
+            cout << "清空预约" << endl;
+            man->cleanFile();
+        }
+        else
+        {
+            delete manager;
+            cout << "注销成功" << endl;
+            cin.get();
+            screenClear();
+            return;
+        }
+    }
+}
 // 登录功能 参数1 操作文件名 操作2 操作身份类别
 void LoginIn(string fileName, int type)
 {
@@ -48,14 +93,68 @@ void LoginIn(string fileName, int type)
     if (type == 1)
     {
         // 学生身份验证
+        int fId;      // 从文件中读取的id号
+        string fName; // 从文件中读取的姓名
+        string fPwd;  // 从文件中读取的密码
+        while (ifs >> fId && ifs >> fName && ifs >> fPwd)
+        {
+            // cout << fId << " " << fName << " " << fPwd << endl;
+            // 与用户输入的信息作对比
+            if (fId == id && fName == name && fPwd == pwd)
+            {
+                cout << "学生验证登录成功" << endl;
+                cin.get();
+                screenClear();
+                person = new Student(id, name, pwd); // 多态 创建学生对象
+                // 进入学生子菜单
+
+                return;
+            }
+        }
     }
     else if (type == 2)
     {
         // 教师身份验证
+        int fId;
+        string fName;
+        string fPwd;
+        while (ifs >> fId && ifs >> fName && ifs >> fPwd)
+        {
+            if (id == fId && name == fName && pwd == fPwd)
+            {
+                cout << "教师验证登录成功" << endl;
+                cin.get();
+                screenClear();
+                person = new Teacher(id, name, pwd);
+                // 进入老师子菜单
+
+                return;
+            }
+        }
     }
     else if (type == 3)
     {
         // 管理员身份验证
+        // 管理员登录验证
+        string fName;
+        string fPwd;
+        while (ifs >> fName && ifs >> fPwd)
+        {
+            if (name == fName && pwd == fPwd)
+            {
+                cout << "验证登录成功" << endl;
+                // 登录成功后，按任意键进入管理员界面
+                cin.get();
+                screenClear();
+                // 创建管理员对象
+                person = new Manager(name, pwd);
+
+                // 管理员菜单
+                managerMenu(person);
+
+                return;
+            }
+        }
     }
     cout << "登录验证失败" << endl;
     cin.get();

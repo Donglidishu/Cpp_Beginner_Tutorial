@@ -30,3 +30,7 @@ void Student::showAllOrder()
 void Student::cancelOrder()
 {
 }
+
+Student::~Student()
+{
+}

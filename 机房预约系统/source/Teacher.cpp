@@ -24,3 +24,7 @@ void Teacher::showAllOrder()
 void Teacher::validOrder()
 {
 }
+
+Teacher::~Teacher()
+{
+}
