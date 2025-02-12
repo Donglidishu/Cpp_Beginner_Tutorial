@@ -1,0 +1,4 @@
+date: 1
+time: 2
+stuId: 1
+stuName:1 roomId:3 status:1

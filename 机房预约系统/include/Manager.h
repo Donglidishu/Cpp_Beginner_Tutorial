@@ -1,6 +1,10 @@
 #pragma once
 
 #include "Identity.h"
+#include "Student.h"
+#include "Teacher.h"
+#include "computerRoom.h"
+#include <vector>
 
 using namespace std;
 
@@ -27,6 +31,21 @@ class Manager : public Identity
 
     // 清空预约记录
     void cleanFile();
+
+    // 初始化去重容器
+    void initVector();
+
+    // 检查是否有重复
+    bool checkRepeat(int id, int type);
+
+    // 学生容器
+    vector<Student> vStudent;
+
+    // 教师容器
+    vector<Teacher> vTeacher;
+
+    // 机房信息容器
+    vector<ComputerRoom> vCom;
 
     ~Manager();
 };
