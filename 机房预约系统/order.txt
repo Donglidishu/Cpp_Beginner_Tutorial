@@ -1,5 +1,2 @@
-date:1 time:2 stuId:1 stuName:1 roomId:3 status:1
-date: 3
-time: 2
-stuId: 1
-stuName:1 roomId:2 status:1
+date:1time:1stuId:1stuName:1 roomId:1 status:1
+date:1 time:1 stuId:1 stuName:1 roomId:1 status:1
