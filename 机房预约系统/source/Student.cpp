@@ -132,11 +132,11 @@ void Student::showOrder()
 
     for (int i = 0; i < of.m_Size; i++)
     {
-        if (atoi(of.m_orderData[i]["stuID"].c_str()) == this->m_Id) // atoi(const char*) 用于将字符串转换为整型，由于stuID是string类型，所以还需要使用.c_str()将string转换成c风格字符串
+        if (atoi(of.m_orderData[i]["stuId"].c_str()) == this->m_Id) // atoi(const char*) 用于将字符串转换为整型，由于stuID是string类型，所以还需要使用.c_str()将string转换成c风格字符串
         {
-            cout << "预约日期： 周" << of.m_orderData[i]["date"];
-            cout << " 时段：" << (of.m_orderData[i]["interval"] == "1" ? "上午" : "下午");
-            cout << " 机房：" << of.m_orderData[i]["roomId"];
+            cout << "预约日期：周" << of.m_orderData[i]["date"];
+            cout << " 时段: " << (of.m_orderData[i]["interval"] == "1" ? "上午" : "下午");
+            cout << " 机房: " << of.m_orderData[i]["roomId"];
             string status;
             if (of.m_orderData[i]["status"] == "1")
             {
@@ -154,16 +154,58 @@ void Student::showOrder()
             {
                 status = "预约已取消";
             }
-            cout << "状态：" << status << endl;
+            cout << " 状态: " << status << endl;
         }
     }
     cin.get();
     screenClear();
 }
+
 // 查看所有预约
 void Student::showAllOrder()
 {
+    OrderFile of;
+    if (of.m_Size == 0)
+    {
+        cout << "无预约记录" << endl;
+        cin.get();
+        screenClear();
+        return;
+    }
+
+    for (int i = 0; i < of.m_Size; i++)
+    {
+        cout << i + 1 << ". ";
+
+        cout << "预约日期: 周" << of.m_orderData[i]["date"];
+        cout << " 时段：" << (of.m_orderData[i]["time"] == "1" ? "上午" : "下午");
+        cout << " 学号：" << of.m_orderData[i]["stuId"];
+        cout << " 姓名：" << of.m_orderData[i]["stuName"];
+        cout << " 机房：" << of.m_orderData[i]["roomId"];
+        string status;
+        if (of.m_orderData[i]["status"] == "1")
+        {
+            status = "审核中";
+        }
+        else if (of.m_orderData[i]["status"] == "2")
+        {
+            status = "预约成功";
+        }
+        else if (of.m_orderData[i]["status"] == "-1")
+        {
+            status = "审核未通过，预约失败";
+        }
+        else
+        {
+            status = "预约已取消";
+        }
+        cout << " 状态: " << status << endl;
+    }
+
+    cin.get();
+    screenClear();
 }
+
 // 取消预约
 void Student::cancelOrder()
 {

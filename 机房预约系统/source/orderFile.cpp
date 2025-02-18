@@ -1,7 +1,9 @@
 #include "orderFile.h"
 #include "globalFile.h"
 #include <fstream>
+#include <iostream>
 #include <utility>
+using namespace std;
 
 OrderFile::OrderFile()
 {
@@ -19,6 +21,14 @@ OrderFile::OrderFile()
 
     while (ifs >> date && ifs >> time && ifs >> stuId && ifs >> stuName && ifs >> roomId && ifs >> status)
     {
+        // // 测试代码
+        // cout << date << endl;
+        // cout << time << endl;
+        // cout << stuId << endl;
+        // cout << stuName << endl;
+        // cout << roomId << endl;
+        // cout << status << endl;
+
         string key;
         string value;
         map<string, string> tempMap;
@@ -81,6 +91,18 @@ OrderFile::OrderFile()
         this->m_orderData.insert(make_pair(this->m_Size, tempMap));
         this->m_Size++;
     }
+
+    // // 测试代码
+    // for (map<int, map<string, string>>::iterator it = m_orderData.begin(); it != m_orderData.end(); it++)
+    // {
+    //     cout << "key = " << it->first << " value = " << endl;
+    //     for (map<string, string>::iterator mit = it->second.begin(); mit != it->second.end(); mit++)
+    //     {
+    //         cout << mit->first << " " << mit->second << " ";
+    //     }
+    //     cout << endl;
+    // }
+
     ifs.close();
 }
 
